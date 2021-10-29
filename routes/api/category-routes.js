@@ -10,7 +10,8 @@ router.get('/', async (req, res) => {
     const categoryResults = await Category.findAll({
       include: [{model:Product}]
     });
-    res.status(200).json(categoryResults);
+    const categories = categoryResults.map((category) => category.get({plain: true}));
+    res.status(200).json(categories);
   } catch (err){
     res.status(500).json(err);
   }
@@ -77,7 +78,7 @@ router.delete('/:id', async (req, res) => {
       });
       return;
     }
-    res.status(200).json({message:`Category Deleted`});
+    res.status(200).json(categoryResults);
   }
     catch (err) {
       res.status(500).json(err)
